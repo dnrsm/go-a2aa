@@ -1,12 +1,12 @@
 package dir
 
 import (
-	"fmt"
+	"github.com/spf13/afero"
 	"io/fs"
 	"path/filepath"
 )
 
-func contains(s []string, str string) bool {
+func Contains(s []string, str string) bool {
 	for _, v := range s {
 		if v == str {
 			return true
@@ -15,46 +15,46 @@ func contains(s []string, str string) bool {
 	return false
 }
 
-func match(file string) bool {
+func Match(file string) bool {
 	exts := []string{".mp3", ".aac"}
 	ext := filepath.Ext(file)
-	return contains(exts, ext)
+	return Contains(exts, ext)
 }
 
-func Current(path string) []string {
+func Current(appFs afero.Fs, path string) ([]string, error) {
 	pattern := path + "/*"
-	files, err := filepath.Glob(pattern)
+	files, err := afero.Glob(appFs, pattern)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	r := make([]string, 0, len(files))
 	for _, file := range files {
-		if match(file) {
+		if Match(file) {
 			r = append(r, file)
 		}
 	}
-	return r
+	return r, nil
 }
 
-func All(path string) []string {
+func All(fileSystem fs.FS, path string) ([]string, error) {
 	r := make([]string, 0)
 
-	err := filepath.WalkDir(path, func(path string, info fs.DirEntry, err error) error {
+	err := fs.WalkDir(fileSystem, path, func(path string, info fs.DirEntry, err error) error {
 		if err != nil {
-			panic(err)
+			return err
 		}
 
 		// is not dir
-		if !info.IsDir() && match(path) {
+		if !info.IsDir() && Match(path) {
 			r = append(r, path)
 		}
 		return nil
 	})
 
 	if err != nil {
-		fmt.Printf("not found")
+		return nil, err
 	}
 
-	return r
+	return r, nil
 
 }

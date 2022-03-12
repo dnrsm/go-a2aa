@@ -7,7 +7,9 @@ package cmd
 import (
 	"a2aa/pkg/dir"
 	"fmt"
+	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 // showCmd represents the show command
@@ -22,19 +24,26 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		allFlag, _ := cmd.Flags().GetBool("all")
+		appFs := afero.NewOsFs()
+		fileSystem := os.DirFS("./")
 
 		if allFlag {
-			files := dir.All(args[0])
+			files, err := dir.All(fileSystem, args[0])
+			if err != nil {
+				fmt.Println(err)
+			}
 			for _, file := range files {
 				fmt.Println(file)
 			}
 		} else {
-			files := dir.Current(args[0])
+			files, err := dir.Current(appFs, args[0])
+			if err != nil {
+				fmt.Println(err)
+			}
 			for _, file := range files {
 				fmt.Println(file)
 			}
 		}
-
 	},
 }
 

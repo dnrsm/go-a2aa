@@ -6,7 +6,8 @@ package cmd
 
 import (
 	"a2aa/pkg/id3"
-
+	"fmt"
+	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 )
 
@@ -22,12 +23,17 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		allFlag, _ := cmd.Flags().GetBool("all")
+		appFs := afero.NewOsFs()
+		fileSystem := afero.NewIOFS(appFs)
 
 		if allFlag {
-			id3.SetTagsAll(args[0])
+			if err := id3.SetTagsAll(fileSystem, args[0]); err != nil {
+				fmt.Println(err)
+			}
 		} else {
-			id3.SetTags(args[0])
-
+			if err := id3.SetTags(appFs, args[0]); err != nil {
+				fmt.Println(err)
+			}
 		}
 	},
 }
