@@ -16,7 +16,7 @@ func contains(s []string, str string) bool {
 }
 
 func match(file string) bool {
-	exts := []string{".mp3", ".mp4", ".aac", ".wav"}
+	exts := []string{".mp3", ".aac"}
 	ext := filepath.Ext(file)
 	return contains(exts, ext)
 }
