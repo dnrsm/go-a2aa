@@ -21,7 +21,7 @@ THE SOFTWARE.
 */
 package main
 
-import "go-a2aa/cmd"
+import "a2aa/cmd"
 
 func main() {
 	cmd.Execute()

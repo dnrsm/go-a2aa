@@ -1,8 +1,8 @@
 package id3
 
 import (
+	"a2aa/pkg/dir"
 	"github.com/bogem/id3v2"
-	"go-a2aa/pkg/dir"
 	"log"
 )
 

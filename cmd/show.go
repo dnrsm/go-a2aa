@@ -5,9 +5,9 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"a2aa/pkg/dir"
 	"fmt"
 	"github.com/spf13/cobra"
-	"go-a2aa/pkg/dir"
 )
 
 // showCmd represents the show command

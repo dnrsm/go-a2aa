@@ -1,4 +1,4 @@
-module go-a2aa
+module a2aa
 
 go 1.16
 

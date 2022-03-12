@@ -5,7 +5,7 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"go-a2aa/pkg/id3"
+	"a2aa/pkg/id3"
 
 	"github.com/spf13/cobra"
 )
